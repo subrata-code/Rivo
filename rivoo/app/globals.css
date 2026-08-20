@@ -1,6 +1,82 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
+/* ─── Rivo Design System ─── */
+
+:root {
+  --background: #000000;
+  --foreground: #ededed;
+
+  /* Rivo brand */
+  --rivo-red: #e63946;
+  --rivo-red-dim: rgba(230, 57, 70, 0.45);
+  --rivo-red-glow: rgba(230, 57, 70, 0.25);
+
+  /* Neutral scale */
+  --white-100: rgba(255, 255, 255, 1);
+  --white-90: rgba(255, 255, 255, 0.9);
+  --white-70: rgba(255, 255, 255, 0.7);
+  --white-45: rgba(255, 255, 255, 0.45);
+  --white-25: rgba(255, 255, 255, 0.25);
+  --white-15: rgba(255, 255, 255, 0.15);
+  --white-10: rgba(255, 255, 255, 0.1);
+  --white-05: rgba(255, 255, 255, 0.05);
+
+  /* Glass */
+  --glass-bg: rgba(0, 0, 0, 0.35);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-blur: 12px;
+
+  /* Typography scale (cinematic) */
+  --text-hero: clamp(3rem, 8vw, 9rem);
+  --text-large: clamp(2rem, 5vw, 5rem);
+  --text-medium: clamp(1.25rem, 3vw, 2.5rem);
+  --text-ui: 11px;
+  --text-micro: 10px;
+
+  /* Timing */
+  --ease-cinematic: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --duration-text-enter: 0.7s;
+  --duration-text-exit: 0.45s;
+
+  /* Cursor */
+  --cursor-dot-size: 8px;
+  --cursor-ring-size: 40px;
+  --cursor-ring-border: 1.5px;
+}
+
+/* ─── Base ─── */
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* ─── Custom cursor (desktop only) ─── */
+
+@media (pointer: fine) {
+  html.cursor-ready,
+  html.cursor-ready * {
+    cursor: none !important;
+  }
+}
+
+/* ─── Tailwind theme ─── */
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-rivo-red: var(--rivo-red);
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono);
+  --animate-scroll-indicator: scroll-indicator 2s ease-in-out infinite;
+}
+
+/* ─── Keyframes ─── */
+
 @keyframes scroll-indicator {
   0% {
     transform: translateY(-100%);
@@ -18,21 +94,103 @@
   }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --animate-scroll-indicator: scroll-indicator 2s ease-in-out infinite;
+@keyframes scroll-dot-travel {
+  0% {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(56px);
+    opacity: 0;
+  }
 }
 
-:root {
-  --background: #000000;
-  --foreground: #ededed;
+@keyframes cursor-ring-pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+@keyframes notification-enter {
+  0% {
+    opacity: 0;
+    transform: translateX(20px) scale(0.92);
+    filter: blur(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes notification-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px var(--rivo-red-glow), 0 0 4px var(--rivo-red-dim);
+  }
+  50% {
+    box-shadow: 0 0 35px var(--rivo-red-glow), 0 0 8px var(--rivo-red-dim);
+  }
+}
+
+@keyframes loader-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ─── Focus-visible (premium) ─── */
+
+:focus-visible {
+  outline: 1.5px solid var(--rivo-red);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ─── Selection ─── */
+
+::selection {
+  background: var(--rivo-red-dim);
+  color: var(--white-100);
+}
+
+/* ─── Scrollbar ─── */
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* ─── Reduced motion ─── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .cinematic-text,
+  .custom-cursor,
+  .scroll-indicator-wrap,
+  .puncture-notification {
+    animation: none !important;
+    transition: none !important;
+    filter: none !important;
+  }
 }

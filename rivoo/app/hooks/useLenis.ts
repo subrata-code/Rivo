@@ -9,13 +9,13 @@ gsap.registerPlugin(ScrollTrigger);
 
 const DEFAULT_OPTIONS: LenisOptions = {
   autoRaf: false,
-  lerp: 0.08,
+  lerp: 0.07,
   duration: 1.4,
   smoothWheel: true,
   syncTouch: true,
   syncTouchLerp: 0.075,
   touchMultiplier: 1.2,
-  wheelMultiplier: 0.9,
+  wheelMultiplier: 0.6,
   orientation: "vertical",
   gestureOrientation: "vertical",
   anchors: true,

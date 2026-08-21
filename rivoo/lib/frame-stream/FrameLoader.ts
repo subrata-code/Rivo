@@ -35,9 +35,22 @@ export class FrameLoader {
    * Request a batch of frames to load, ordered by priority.
    * Frames that are already loaded/loading are skipped.
    * Replaces any existing queue — new priorities take effect immediately.
+   * Cancels in-flight requests that are NOT in the new priority set
+   * (e.g. when scroll direction reverses or a large jump occurs).
    */
   loadFrames(indices: number[]): void {
     if (this._destroyed) return;
+
+    // Build a set for O(1) lookup
+    const prioritySet = new Set(indices);
+
+    // Cancel in-flight requests that are no longer relevant
+    for (const [frameIdx, controller] of this._abortControllers) {
+      if (!prioritySet.has(frameIdx)) {
+        controller.abort();
+        // State will be reset to 'idle' in the loadOne catch handler
+      }
+    }
 
     // Build new queue, skipping already loaded/loading frames
     const newQueue: LoadTask[] = [];

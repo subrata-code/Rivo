@@ -76,6 +76,14 @@ export class FrameController {
 
     if (targetFrame === this._currentFrame) return;
 
+    // Detect large jumps (e.g. 300 → 700) — cancel all in-flight loads
+    // so we don't waste bandwidth loading the old neighborhood
+    const frameDelta = Math.abs(targetFrame - this._currentFrame);
+    const isJump = frameDelta > 50;
+    if (isJump) {
+      this._loader.cancelAll();
+    }
+
     this._currentFrame = targetFrame;
     this.currentFrameRef.current = targetFrame;
 

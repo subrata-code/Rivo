@@ -8,9 +8,9 @@
   --foreground: #ededed;
 
   /* Rivo brand */
-  --rivo-red: #e63946;
-  --rivo-red-dim: rgba(230, 57, 70, 0.45);
-  --rivo-red-glow: rgba(230, 57, 70, 0.25);
+  --rivo-red: #E21833;
+  --rivo-red-dim: rgba(226, 24, 51, 0.45);
+  --rivo-red-glow: rgba(226, 24, 51, 0.25);
 
   /* Neutral scale */
   --white-100: rgba(255, 255, 255, 1);
